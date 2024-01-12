@@ -23,7 +23,7 @@ const Page = () => {
   return (
     <>
       <Head>
-        <title>Overview | Devias Kit</title>
+        <title>Overview | Jai Shree Ram</title>
       </Head>
       <Box
         component="main"
