@@ -36,7 +36,7 @@ export const OverviewTelecallingData = (props) => {
             <Typography color="text.secondary" variant="overline">
               {`Telecalling ${text} Data`}
             </Typography>
-            <Typography variant="h4">{callingData.length}</Typography>
+            <Typography variant="h4">{callingData?.length}</Typography>
            
           </Stack>
           <Avatar

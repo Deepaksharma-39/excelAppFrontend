@@ -35,7 +35,7 @@ export const OverviewSmsData = (props) => {
             <Typography color="text.secondary" variant="overline">
             {`SMS ${text} Data`}
             </Typography>
-            <Typography variant="h4">{callingData.length}</Typography>
+            <Typography variant="h4">{callingData?.length}</Typography>
            
           </Stack>
           <Avatar

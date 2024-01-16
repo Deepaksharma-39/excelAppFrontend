@@ -35,7 +35,7 @@ export const OverviewIVRData = (props) => {
             <Typography color="text.secondary" variant="overline">
             {`ivr ${text} Data`}
             </Typography>
-            <Typography variant="h4">{callingData.length}</Typography>
+            <Typography variant="h4">{callingData?.length}</Typography>
            
           </Stack>
           <Avatar

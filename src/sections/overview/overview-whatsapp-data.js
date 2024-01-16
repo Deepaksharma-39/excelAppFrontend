@@ -35,7 +35,7 @@ export const OverviewWhatsAppData = (props) => {
             <Typography color="text.secondary" variant="overline">
             {`whatsapp ${text} Data`}
             </Typography>
-            <Typography variant="h4">{callingData.length}</Typography>
+            <Typography variant="h4">{callingData?.length}</Typography>
           
           </Stack>
           <Avatar

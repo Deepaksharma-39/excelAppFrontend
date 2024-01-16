@@ -35,7 +35,7 @@ export const OverviewEmailData = (props) => {
             <Typography color="text.secondary" variant="overline">
             {`email ${text} Data`}
             </Typography>
-            <Typography variant="h4">{callingData.length}</Typography>
+            <Typography variant="h4">{callingData?.length}</Typography>
            
           </Stack>
           <Avatar

@@ -1,7 +1,8 @@
 export const overallData = (data) => {
+  console.log(data)
   const cityCounts = {};
   // Iterate through the array of objects and count the occurrences of each city
-  data.forEach((obj) => {
+  data?.forEach((obj) => {
     const city = obj.CITY?.toUpperCase(); // Ensure case-insensitivity
     if (city) {
       cityCounts[city] = (cityCounts[city] || 0) + 1;
@@ -12,7 +13,7 @@ export const overallData = (data) => {
 };
 
 export const filterDataByStatus = (data, key, status) => {
-  return data.filter((item) => {
+  return data?.filter((item) => {
     const value = item[key];
 
     if (status === "USED") {
@@ -32,7 +33,7 @@ export const filterDataByBank = (
   secondConditionKey,
   secondConditionValue
 ) => {
-  const newArr = data.filter(
+  const newArr = data?.filter(
     (obj) =>
       obj[firstConditionKey]?.toUpperCase() === firstConditionValue.toUpperCase() &&
       obj[secondConditionKey]?.toUpperCase() === secondConditionValue.toUpperCase()

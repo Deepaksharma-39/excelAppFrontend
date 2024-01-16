@@ -31,7 +31,7 @@ export const OverviewData = (props) => {
             <Typography color="text.secondary" variant="overline">
               Total Data
             </Typography>
-            <Typography variant="h4">{data.length}</Typography>
+            <Typography variant="h4">{data?.length}</Typography>
           
           </Stack>
           <Avatar

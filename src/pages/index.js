@@ -18,6 +18,7 @@ import { OverviewSBIBankData } from "src/sections/overview/overview-sbiBanking-d
 const Page = () => {
   const { data } = useData();
 
+  console.log(data)
   const cityCounts = overallData(data);
 
   return (
