@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import { withAuthGuard } from 'src/hocs/with-auth-guard';
 import { SideNav } from './side-nav';
 import { TopNav } from './top-nav';
+import { Box, CircularProgress } from '@mui/material';
+import { useDataContext } from 'src/contexts/data-context';
 
 
 const LayoutRoot = styled('div')(({ theme }) => ({
@@ -24,6 +26,7 @@ export const Layout = withAuthGuard((props) => {
   const { children } = props;
   const pathname = usePathname();
   const [openNav, setOpenNav] = useState(false);
+  const { isLoading } = useDataContext();
 
   const handlePathnameChange = useCallback(
     () => {
@@ -34,26 +37,26 @@ export const Layout = withAuthGuard((props) => {
     [openNav]
   );
 
-  useEffect(
-    () => {
-      handlePathnameChange();
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [pathname]
-  );
+  useEffect(() => {
+    handlePathnameChange();
+  }, [pathname]);
 
   return (
     <>
-      <TopNav onNavOpen={() => setOpenNav(true)} />
-      <SideNav
-        onClose={() => setOpenNav(false)}
-        open={openNav}
-      />
-      <LayoutRoot>
-        <LayoutContainer>
-          {children}
-        </LayoutContainer>
-      </LayoutRoot>
+      {isLoading ? (
+        <Box sx={{ height:"100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <CircularProgress />
+        </Box>
+      ) : (
+        <>
+          <TopNav onNavOpen={() => setOpenNav(true)} />
+          <SideNav onClose={() => setOpenNav(false)} open={openNav} />
+          <LayoutRoot>
+            <LayoutContainer>{children}</LayoutContainer>
+          </LayoutRoot>
+        </>
+      )}
     </>
   );
 });
+

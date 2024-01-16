@@ -14,9 +14,10 @@ import { OverviewEmailData } from "src/sections/overview/overview-email-data";
 import { OverviewIVRData } from "src/sections/overview/overview-ivr-data";
 import { OverviewAxisBankData } from "src/sections/overview/overview-axisBanking-data";
 import { OverviewSBIBankData } from "src/sections/overview/overview-sbiBanking-data";
+import { useDataContext } from "src/contexts/data-context";
 
 const Page = () => {
-  const { data } = useData();
+  const { data } = useDataContext();
 
   const cityCounts = overallData(data);
 

@@ -39,19 +39,17 @@ const App = (props) => {
               <AuthConsumer>
                 {(auth) => (
                   // Render the main component even if data is still loading
+                  auth.isLoading ? <SplashScreen/> :
                   getLayout(
                     <DataConsumer>
-                      {(dataContext) => (
-                        dataContext.isLoading ? (
-                          <SplashScreen />
-                        ) : (
+                      {(dataContext) => 
                           <Component
                             {...pageProps}
                             auth={auth}
                             data={dataContext.data}
                           />
-                        )
-                      )}
+                        
+                      }
                     </DataConsumer>
                   )
                 )}
