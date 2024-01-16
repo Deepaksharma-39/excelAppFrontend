@@ -42,11 +42,7 @@ export const DataProvider = (props) => {
       const authToken = localStorage.getItem('authToken');
       // Make API request to fetch data
       const result = (
-        await axios.get('https://excelappbackend.onrender.com/api/read', {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-          },
-        })
+        await axios.get('https://excelappbackend.onrender.com/api/read')
       ).data;
 
       // Update the local state with fetched data
