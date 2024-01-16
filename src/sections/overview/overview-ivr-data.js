@@ -90,6 +90,6 @@ export const OverviewIVRData = (props) => {
 };
 
 OverviewIVRData.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   sx: PropTypes.object,
 };

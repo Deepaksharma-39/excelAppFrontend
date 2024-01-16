@@ -91,6 +91,6 @@ export const OverviewSBIBankData = (props) => {
 };
 
 OverviewSBIBankData.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   sx: PropTypes.object,
 };

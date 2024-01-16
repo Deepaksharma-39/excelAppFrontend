@@ -91,6 +91,6 @@ export const OverviewTelecallingData = (props) => {
 };
 
 OverviewTelecallingData.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   sx: PropTypes.object,
 };

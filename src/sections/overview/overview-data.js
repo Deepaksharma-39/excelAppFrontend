@@ -87,5 +87,5 @@ export const OverviewData = (props) => {
 
 OverviewData.prototypes = {
   sx: PropTypes.object,
-  value: PropTypes.number.isRequired,
+  value: PropTypes.number,
 };

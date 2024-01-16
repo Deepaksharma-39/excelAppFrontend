@@ -91,6 +91,6 @@ export const OverviewAxisBankData = (props) => {
 };
 
 OverviewAxisBankData.propTypes = {
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   sx: PropTypes.object,
 };

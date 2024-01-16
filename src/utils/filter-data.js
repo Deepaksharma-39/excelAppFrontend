@@ -1,5 +1,4 @@
 export const overallData = (data) => {
-  console.log(data)
   const cityCounts = {};
   // Iterate through the array of objects and count the occurrences of each city
   data?.forEach((obj) => {

@@ -91,6 +91,6 @@ export const OverviewEmailData = (props) => {
 
 OverviewEmailData.propTypes = {
  
-  data: PropTypes.array.isRequired,
+  data: PropTypes.array,
   sx: PropTypes.object,
 };

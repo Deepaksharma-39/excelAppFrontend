@@ -1,6 +1,6 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Head from "next/head";
-import { Box, Container, Stack, SvgIcon, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Stack, SvgIcon, Typography } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { CustomersTable } from "src/sections/customer/customers-table";
 import { CustomersSearch } from "src/sections/customer/customers-search";
@@ -10,6 +10,7 @@ import { Button, Col, FormGroup, Input, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { compareDataArrays, readUploadFile, updateInDB } from "src/utils/upload-data";
 import { read, utils } from "xlsx";
+import { useDataContext } from "src/contexts/data-context";
 
 const useCustomers = (data, page, rowsPerPage) => {
   return useMemo(() => {
@@ -20,7 +21,7 @@ const useCustomers = (data, page, rowsPerPage) => {
 const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const { data } = useData();
+  const { data, fetchData } = useDataContext();
   const [value, setValue] = useState([]);
   const renderData = value.length > 0 ? value : data;
   const customers = useCustomers(renderData, page, rowsPerPage);
@@ -61,6 +62,11 @@ const Page = () => {
     window.location.reload();
   };
 
+  useEffect(() => {
+    // Call fetchData when your component mounts or whenever you want to refresh the data
+    fetchData();
+  }, [fetchData]); // Add fetchData to the dependency array to avoid lint warnings
+
   return (
     <>
       <Head>
@@ -97,32 +103,22 @@ const Page = () => {
                           disabled={loading}
                           color="success"
                           onClick={() => {
+                            setLoading(true)
                             const result = compareDataArrays(data, value);
                             const res = updateInDB(result);
 
                             res
                               .then((message) => {
-                                console.log("Success:", message);
-                                console.log(res);
                                 setValue(result.reverse());
-                                alert('Data Uploaded successfully')
+                                setLoading(false)
+                                alert("Data Uploaded successfully");
                               })
                               .catch((error) => {
                                 console.error("Error:", error);
-                                alert("Data upload Failed")
+                                setLoading(false)
+
+                                alert("Data upload Failed");
                               });
-                          }}
-                        >
-                          {"Read Data"}
-                        </Button>
-                      )}{" "}
-                      {selectedFile?.name && (
-                        <Button
-                          disabled={loading}
-                          color="success"
-                          onClick={() => {
-                            const result = compareDataArrays(data, value);
-                            setValue(result.reverse());
                           }}
                         >
                           {"Upload Data"}
@@ -139,14 +135,20 @@ const Page = () => {
               </Stack>
             </Stack>
             <CustomersSearch />
-            <CustomersTable
-              count={renderData.length}
-              items={customers}
-              onPageChange={handlePageChange}
-              onRowsPerPageChange={handleRowsPerPageChange}
-              page={page}
-              rowsPerPage={rowsPerPage}
-            />
+            {loading ? (
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <CircularProgress />
+              </Box>
+            ) : (
+              <CustomersTable
+                count={renderData.length}
+                items={customers}
+                onPageChange={handlePageChange}
+                onRowsPerPageChange={handleRowsPerPageChange}
+                page={page}
+                rowsPerPage={rowsPerPage}
+              />
+            )}
           </Stack>
         </Container>
       </Box>
