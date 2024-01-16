@@ -22,7 +22,7 @@ export const CustomersTable = (props) => {
   } = props;
 
   let keys;
-  if (items.length >0) {
+  if (items.length > 0) {
     keys = Object.keys(items[0]);
   } else {
     keys = [];
@@ -36,7 +36,18 @@ export const CustomersTable = (props) => {
             <TableHead>
               <TableRow>
                 {items.length > 0 ? (
-                  keys.map((key) => (key === "_id" ? null : <TableCell key={key}>{key}</TableCell>))
+                  keys.map((key) => {
+                    // Exclude keys "_id", 3, and 4
+                    if (
+                      key === "_id" ||
+                      key === "__v" ||
+                      key === "createdAt" ||
+                      key === "updatedAt"
+                    ) {
+                      return null;
+                    }
+                    return <TableCell key={key}>{key}</TableCell>;
+                  })
                 ) : (
                   <h3>No Data present in database</h3>
                 )}
@@ -46,7 +57,12 @@ export const CustomersTable = (props) => {
               {items.map((item, id) => (
                 <TableRow key={id}>
                   {keys.map(
-                    (key, index) => key !== "_id" && <TableCell key={index}>{item[key]}</TableCell>
+                    (key, index) =>
+                      // Exclude keys "_id", 3, and 4
+                      key !== "_id" &&
+                      key !== "__v" &&
+                      key !== "createdAt" &&
+                      key !== "updatedAt" && <TableCell key={index}>{item[key]}</TableCell>
                   )}
                 </TableRow>
               ))}
