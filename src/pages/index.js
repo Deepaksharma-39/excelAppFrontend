@@ -19,34 +19,7 @@ const Page = () => {
   const { data } = useDataContext();
 
   const cityCounts = overallData(data);
-  const fetchData = async () => {
-    try {
-      // Make API request to fetch data
-      const result = (await axios.get('https://excelappbackend.onrender.com/api/read')).data;
-  
 
-      // localStorage.setItem('appData',JSON.stringify(result))
-         // Create a Blob containing the JSON data
-    const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
-
-    // Create a File object from the Blob
-    const file = new File([blob], 'appData.json', { type: 'application/json' });
-
-    // You can now use the 'file' variable as needed
-    console.log('File created:', file);
-
-    if ("caches" in window) {
-      // Opening given cache and putting our data into it
-      caches.open(cacheName).then((cache) => {
-          cache.put("appData", result);
-          alert("Data Added into cache!");
-      });
-  }
-    } catch (error) {
-      // If the API request was not successful, handle the error
-      console.log(error);
-    }
-  };
   
   return (
     <>
@@ -61,9 +34,7 @@ const Page = () => {
         }}
       >
         <Container maxWidth="xl">
-          <div>
-            <button onClick={fetchData}>Fetch and Save Data</button>
-          </div>
+          
           <Grid container spacing={1}>
             <Grid xs={12} sm={6} lg={3}>
               <OverviewData sx={{ height: "100%" }} data={data} />
