@@ -10,7 +10,7 @@ import { Button, Col, FormGroup, Input, Row } from "reactstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { compareDataArrays, readUploadFile, updateInDB } from "src/utils/upload-data";
 import { read, utils } from "xlsx";
-import { useDataContext } from "src/contexts/data-context";
+import axios from "axios";
 
 const useCustomers = (data, page, rowsPerPage) => {
   return useMemo(() => {
@@ -18,15 +18,36 @@ const useCustomers = (data, page, rowsPerPage) => {
   }, [page, rowsPerPage]);
 };
 
+
+
 const Page = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const { data, fetchData } = useDataContext();
+  const [count, setCount] = useState(0);
   const [value, setValue] = useState([]);
-  const renderData = value.length > 0 ? value : data;
-  const customers = useCustomers(renderData, page, rowsPerPage);
+  const [customer, setCustomer] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+
+  const customers = useCustomers(customer, page, rowsPerPage);
+
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const result = (
+        await axios.get(
+          `https://excelappbackend.onrender.com/api/readPagination?page=${page}&pageSize=${rowsPerPage}`
+        )
+      ).data;
+      console.log(result)
+      setLoading(false);
+      setCount(Math.ceil(result.articles.metadata.totalCount));
+      setValue(result.articles.data);
+    } catch (err) {
+      setLoading(false);
+    }
+  };
 
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
@@ -49,7 +70,11 @@ const Page = () => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const result = utils.sheet_to_json(worksheet);
-        setValue(result);
+        setCustomer(result);
+        if(customers.length>0){
+          setValue(customer)
+        }
+        setCount(result.length)
         setLoading(false);
       };
       reader.readAsArrayBuffer(file);
@@ -65,7 +90,7 @@ const Page = () => {
   useEffect(() => {
     // Call fetchData when your component mounts or whenever you want to refresh the data
     fetchData();
-  }, [fetchData]); // Add fetchData to the dependency array to avoid lint warnings
+  }, []); // Add fetchData to the dependency array to avoid lint warnings
 
   return (
     <>
@@ -141,8 +166,8 @@ const Page = () => {
               </Box>
             ) : (
               <CustomersTable
-                count={renderData.length}
-                items={customers}
+                count={count}
+                items={value}
                 onPageChange={handlePageChange}
                 onRowsPerPageChange={handleRowsPerPageChange}
                 page={page}

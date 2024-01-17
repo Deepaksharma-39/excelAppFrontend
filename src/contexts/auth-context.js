@@ -85,6 +85,7 @@ export const AuthProvider = (props) => {
      const user=window.sessionStorage.getItem('user');
       dispatch({
         type: HANDLERS.INITIALIZE,
+        payload:user
       });
     } else {
       dispatch({

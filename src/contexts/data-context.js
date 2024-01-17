@@ -10,7 +10,7 @@ const DATA_HANDLERS = {
 const initialDataState = {
   data: null,
   error: null,
-  isLoading: true
+  isLoading: false
 };
 
 const dataHandlers = {
