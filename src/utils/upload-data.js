@@ -31,28 +31,26 @@ export const compareDataArrays = (originalArray, uploadArray) => {
 }
 
 // Helper function to identify manipulated values and return remarks
-function compareAndUpdate(original, newObj) {
-  let remarks = original["REMARKS"] || "";
+function compareAndUpdate(originalObject, updatedObject) {
+  const remarksList = [];
 
-  for (const key in newObj) {
-    if (newObj.hasOwnProperty(key)) {
-      let  value = newObj[key];
-
-      if (key === "MOBILE NO") {
-        value = String(value);
-        original[key] = String(original[key] || '');
+  for (const key in originalObject) {
+      if (key !== "REMARKS" && updatedObject[key] !== originalObject[key]) {
+          remarksList.push(originalObject[key]);
       }
-
-      if (!original.hasOwnProperty(key) || original[key] !== value) {
-        remarks += `|${value}`;
-        original[key] = value;
-      }
-    }
   }
 
-  original["REMARKS"] = remarks;
-  return original;
+  const remarks = remarksList.join('|');
+
+  const resultObject = {
+      ...originalObject,
+      REMARKS: originalObject.REMARKS ? originalObject.REMARKS + ' | ' + remarks : remarks,
+  };
+
+  return resultObject;
 }
+
+
 
 
 

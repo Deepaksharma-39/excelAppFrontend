@@ -11,13 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { compareDataArrays, readUploadFile, updateInDB } from "src/utils/upload-data";
 import { read, utils } from "xlsx";
 import axios from "axios";
-
-const useCustomers = (data, page, rowsPerPage) => {
-  return useMemo(() => {
-    return applyPagination(data, page, rowsPerPage);
-  }, [page, rowsPerPage]);
-};
-
+import { useDataContext } from "src/contexts/data-context";
 
 
 const Page = () => {
@@ -25,12 +19,10 @@ const Page = () => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [count, setCount] = useState(0);
   const [value, setValue] = useState([]);
-  const [customer, setCustomer] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
-
-  const customers = useCustomers(customer, page, rowsPerPage);
-
+  const { data, isloading } = useDataContext();
+  const [uploadData, setUploadData] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -40,10 +32,10 @@ const Page = () => {
           `https://excelappbackend.onrender.com/api/readPagination?page=${page}&pageSize=${rowsPerPage}`
         )
       ).data;
-      console.log(result)
-      setLoading(false);
+      console.log(result);
       setCount(Math.ceil(result.articles.metadata.totalCount));
       setValue(result.articles.data);
+      setLoading(false);
     } catch (err) {
       setLoading(false);
     }
@@ -60,6 +52,10 @@ const Page = () => {
   const readUploadFile = (e) => {
     e.preventDefault();
     setLoading(true);
+    setUploadData([]);
+    setPage(0);
+    setRowsPerPage(5);
+    setValue([]);
     if (e.target.files) {
       const file = e.target.files[0];
       setSelectedFile(file);
@@ -70,11 +66,9 @@ const Page = () => {
         const sheetName = workbook.SheetNames[0];
         const worksheet = workbook.Sheets[sheetName];
         const result = utils.sheet_to_json(worksheet);
-        setCustomer(result);
-        if(customers.length>0){
-          setValue(customer)
-        }
-        setCount(result.length)
+        setUploadData(result);
+        setValue(result);
+        setCount(result.length);
         setLoading(false);
       };
       reader.readAsArrayBuffer(file);
@@ -90,8 +84,7 @@ const Page = () => {
   useEffect(() => {
     // Call fetchData when your component mounts or whenever you want to refresh the data
     fetchData();
-  }, []); // Add fetchData to the dependency array to avoid lint warnings
-
+  }, [page, rowsPerPage]);
   return (
     <>
       <Head>
@@ -128,19 +121,23 @@ const Page = () => {
                           disabled={loading}
                           color="success"
                           onClick={() => {
-                            setLoading(true)
-                            const result = compareDataArrays(data, value);
+                            setLoading(true);
+
+                            while(isloading){
+
+                            }
+                            const result = compareDataArrays(uploadData, data);
                             const res = updateInDB(result);
 
                             res
                               .then((message) => {
-                                setValue(result.reverse());
-                                setLoading(false)
+                                fetchData();
+                                window.location.reload();
                                 alert("Data Uploaded successfully");
                               })
                               .catch((error) => {
                                 console.error("Error:", error);
-                                setLoading(false)
+                                setLoading(false);
 
                                 alert("Data upload Failed");
                               });
@@ -150,7 +147,7 @@ const Page = () => {
                         </Button>
                       )}{" "}
                       {selectedFile?.name && (
-                        <Button disabled={loading} color="danger" onClick={removeFile}>
+                        <Button disabled={loading || isloading} color="danger" onClick={removeFile}>
                           {"Reset"}
                         </Button>
                       )}{" "}
