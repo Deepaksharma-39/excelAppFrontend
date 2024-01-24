@@ -22,13 +22,13 @@ export const CustomersTable = (props) => {
   } = props;
 
   let keys;
-  if (items.length > 0) {
+  if (items?.length > 0) {
     keys = Object.keys(items[0]);
   } else {
     keys = [];
   }
 
-  if (items.length > 0) {
+  if (items?.length > 0) {
     let paginatedData;
     if(items.length>5){
       paginatedData = items.slice(page * rowsPerPage, (page + 1) * rowsPerPage);
