@@ -32,7 +32,6 @@ const Page = () => {
           `https://excelappbackend.onrender.com/api/readPagination?page=${page}&pageSize=${rowsPerPage}`
         )
       ).data;
-      console.log(result);
       setCount(Math.ceil(result.articles.metadata.totalCount));
       setValue(result.articles.data);
       setLoading(false);

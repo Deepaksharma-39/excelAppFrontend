@@ -1,11 +1,10 @@
 import Head from "next/head";
-import { Box, Container, Divider, Unstable_Grid2 as Grid } from "@mui/material";
+import { Box, CircularProgress, Container, Divider, Unstable_Grid2 as Grid, LinearProgress } from "@mui/material";
 import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { OverviewData } from "src/sections/overview/overview-data";
 import { OverviewCityCount } from "src/sections/overview/overview-city-data";
 import { OverviewTelecallingData } from "src/sections/overview/overview-telecalling-data";
 import { OverviewWhatsAppData } from "src/sections/overview/overview-whatsapp-data";
-import { useData } from "src/hooks/use-data";
 import { overallData } from "src/utils/filter-data";
 import { OverviewSmsData } from "src/sections/overview/overview-sms-data";
 import { OverviewEmailData } from "src/sections/overview/overview-email-data";
@@ -13,7 +12,6 @@ import { OverviewIVRData } from "src/sections/overview/overview-ivr-data";
 import { OverviewAxisBankData } from "src/sections/overview/overview-axisBanking-data";
 import { OverviewSBIBankData } from "src/sections/overview/overview-sbiBanking-data";
 import { useDataContext } from "src/contexts/data-context";
-import axios from "axios";
 
 const Page = () => {
   const { data } = useDataContext();
@@ -35,7 +33,7 @@ const Page = () => {
       >
         <Container maxWidth="xl">
           
-          <Grid container spacing={1}>
+          {data ? <Grid container spacing={1}>
             <Grid xs={12} sm={6} lg={3}>
               <OverviewData sx={{ height: "100%" }} data={data} />
             </Grid>
@@ -71,7 +69,18 @@ const Page = () => {
             <Grid xs={12} md={6} lg={4}>
               <OverviewCityCount cities={cityCounts} sx={{ height: "100%" }} />
             </Grid>
-          </Grid>
+          </Grid> : 
+           <Box
+           sx={{
+             display: 'flex',
+             justifyContent: 'center',
+             alignItems: 'center',
+             height: '80vh', // Set to 100% of the viewport height
+           }}
+         >
+           <CircularProgress />
+         </Box> }
+         
         </Container>
       </Box>
     </>
