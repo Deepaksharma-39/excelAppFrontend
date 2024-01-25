@@ -57,12 +57,10 @@ export const CustomersTable = (props) => {
                       }
                       return <TableCell key={key}>{key}</TableCell>;
                     })
-                  ) : (
-                    <TableCell key={null}>{"No Data present in database"}</TableCell>
-                  )}
+                  ):""}
                 </TableRow>
               </TableHead>
-              <TableBody>
+              <TableBody sx={{fontSize:'10px'}}>
                 {paginatedData.map((item, id) => (
                   <TableRow key={id}>
                     {keys.map(
@@ -98,7 +96,7 @@ export const CustomersTable = (props) => {
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell key={null}>{"No Data present in database"}</TableCell>
+                  <TableCell key={null}>{""}</TableCell>
                 </TableRow>
               </TableHead>
             </Table>

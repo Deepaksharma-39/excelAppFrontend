@@ -25,12 +25,12 @@ export const neutral = {
 };
 
 export const indigo = withAlphas({
-  lightest: '#F5F7FF',
-  light: '#EBEEFE',
-  main: '#6366F1',
-  dark: '#4338CA',
-  darkest: '#312E81',
-  contrastText: '#FFFFFF'
+  lightest: '#FFECEB',      // Lightest reddish shade
+  light: '#FFC4C1',         // Light reddish shade
+  main: '#FF5752',          // Main reddish color
+  dark: '#E0443F',          // Dark reddish shade
+  darkest: '#A02623',       // Darkest reddish shade
+  contrastText: '#FFFFFF'   // Text color for contrast
 });
 
 export const success = withAlphas({

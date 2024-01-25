@@ -3,7 +3,7 @@ export const compareDataArrays = (originalArray, uploadArray) => {
 // console.log(originalArray)
   const resultArray = [];
 
-  const newData = uploadArray.filter(item => !originalArray.some(existingItem => String(existingItem['MOBILE NO']) === String(item['MOBILE NO'])));
+  const newData = uploadArray.filter(item => !originalArray?.some(existingItem => String(existingItem['MOBILE NO']) === String(item['MOBILE NO'])));
   
   originalArray.forEach(existingItem => {
     const matchingUploadItem = uploadArray.find(item => String(item['MOBILE NO']) === String(existingItem['MOBILE NO']));
