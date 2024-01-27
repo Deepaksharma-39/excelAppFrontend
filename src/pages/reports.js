@@ -27,7 +27,7 @@ const Page = () => {
   const [uniqueCity,setUniqueCity]=useState([]);
   const [isFilterOpen, setFilterOpen] = useState(false);
   const [filterValues, setFilterValues] = useState({
-    city: personName,
+    city: [],
     whatsappStatus: "All",
     employeeStatus: "All",
     whatsappFromDate: null,
@@ -86,55 +86,96 @@ const Page = () => {
 
   const handleFilterOptionClick = () => {
     // Use filterValues state to filter your main data
-    console.log("Selected Filter Values:", filterValues);
-  
-    console.log(data[0]);
- 
-  
+
+
     const filteredData = data.filter(item => {
       // Check for whatsappStatus
-      if (filterValues.whatsappStatus !== "All" && item["WHATS APP"]?.toUpperCase() !== filterValues.whatsappStatus.toUpperCase()) {
-          return false;
+      if (filterValues.whatsappStatus !== "All") {
+          if (filterValues.whatsappStatus === "No Status") {
+              if (item["WHATS APP"] !== undefined && item["WHATS APP"] !== null && item["WHATS APP"] !== "") {
+                  return false;
+              }
+          } else if (item["WHATS APP"]?.toUpperCase() !== filterValues.whatsappStatus.toUpperCase()) {
+              return false;
+          }
       }
-    
-      // Check for smsStatus
-      if (filterValues.smsStatus !== "All" && item["SMS"]?.toUpperCase() !== filterValues.smsStatus.toUpperCase()) {
-          return false;
-      }
-    
-      // Check for callingStatus
-      if (filterValues.callingStatus !== "All" && item["CALLING"]?.toUpperCase() !== filterValues.callingStatus.toUpperCase()) {
-          return false;
-      }
-    
-      // Check for axisBankStatus
-      if (filterValues.employeeStatus !== "All" && item["Employment Type"]?.toUpperCase() !== filterValues.employeeStatus.toUpperCase()) {
-          return false;
-      }
-
-      if (filterValues.axisBankStatus !== "All" && item["BANKS STATUS"]?.toUpperCase() !== filterValues.axisBankStatus.toUpperCase()) {
-        return false;
-    }
   
-    
+      // Check for smsStatus
+      if (filterValues.smsStatus !== "All") {
+          if (filterValues.smsStatus === "No Status") {
+              if (item["SMS"] !== undefined && item["SMS"] !== null && item["SMS"] !== "") {
+                  return false;
+              }
+          } else if (item["SMS"]?.toUpperCase() !== filterValues.smsStatus.toUpperCase()) {
+              return false;
+          }
+      }
+  
+      // Check for callingStatus
+      if (filterValues.callingStatus !== "All") {
+          if (filterValues.callingStatus === "No Status") {
+              if (item["CALLING"] !== undefined && item["CALLING"] !== null && item["CALLING"] !== "") {
+                  return false;
+              }
+          } else if (item["CALLING"]?.toUpperCase() !== filterValues.callingStatus.toUpperCase()) {
+              return false;
+          }
+      }
+  
+      // Check for axisBankStatus
+      if (filterValues.employeeStatus !== "All") {
+          if (filterValues.employeeStatus === "No Status") {
+              if (item["Employment Type"] !== undefined && item["Employment Type"] !== null && item["Employment Type"] !== "") {
+                  return false;
+              }
+          } else if (item["Employment Type"]?.toUpperCase() !== filterValues.employeeStatus.toUpperCase()) {
+              return false;
+          }
+      }
+  
+      // Check for axisBankStatus
+      if (filterValues.axisBankStatus !== "All") {
+          if (filterValues.axisBankStatus === "No Status") {
+              if (item["BANKS STATUS"] !== undefined && item["BANKS STATUS"] !== null && item["BANKS STATUS"] !== "") {
+                  return false;
+              }
+          } else if (item["BANKS STATUS"]?.toUpperCase() !== filterValues.axisBankStatus.toUpperCase()) {
+              return false;
+          }
+      }
+  
       // Check for sbiBankStatus
-      if (filterValues.sbiBankStatus !== "All" && item["BANKS STATUS_1"]?.toUpperCase() !== filterValues.sbiBankStatus.toUpperCase()) {
+      if (filterValues.sbiBankStatus !== "All") {
+          if (filterValues.sbiBankStatus === "No Status") {
+              if (item["BANKS STATUS_1"] !== undefined && item["BANKS STATUS_1"] !== null && item["BANKS STATUS_1"] !== "") {
+                  return false;
+              }
+          } else if (item["BANKS STATUS_1"]?.toUpperCase() !== filterValues.sbiBankStatus.toUpperCase()) {
+              return false;
+          }
+      }
+  
+      // Check for city
+      if (filterValues.city.length > 0 && !filterValues.city.some(city => city.toUpperCase() === item["CITY"]?.toUpperCase())) {
           return false;
       }
-    
-      // Add more checks for other filter keys if needed
-    
+  
       return true;
-    });
+  });
+  
     
     setCount(filteredData?.length)
     setValue(filteredData)
 
     setFilterOpen(false);
-console.log("filteredData",filteredData);
   };
   
-
+  useEffect(() => {
+    setFilterValues(prevValues => ({
+        ...prevValues,
+        city: personName
+    }));
+}, [personName]);
 
   return (
     <>

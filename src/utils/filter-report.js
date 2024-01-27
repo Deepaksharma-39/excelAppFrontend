@@ -16,16 +16,19 @@ import { DatePicker } from "@mui/x-date-pickers";
 
 const FilterPop = ({handleFilterOptionClick,personName,setPersonName,filterValues,setFilterValues,cities, isFilterOpen, setFilterOpen, handleFilterClose }) => {
   
- 
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFilterValues((prevValues) => ({
       ...prevValues,
+     
       [name]: value,
     }));
+
   };
   const resetFilters = () => {
+
+    setPersonName([]);
     setFilterValues({
       city: [],
       whatsappStatus: 'All',
@@ -86,7 +89,8 @@ const FilterPop = ({handleFilterOptionClick,personName,setPersonName,filterValue
               {" "}
               <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"Salaried"}>Salaried</MenuItem>
-              <MenuItem value={"Unsalaried"}>Unsalaried</MenuItem>
+              <MenuItem value={"Self Employed Business"}>Self Employed Business</MenuItem>
+              <MenuItem value={"No Status"}>No Status</MenuItem>
             </Select>
           </Grid>
         </Stack>
@@ -106,6 +110,8 @@ const FilterPop = ({handleFilterOptionClick,personName,setPersonName,filterValue
               <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"Fresh"}>Fresh</MenuItem>
               <MenuItem value={"Used"}>Used</MenuItem>
+              <MenuItem value={"No Status"}>No Status</MenuItem>
+
             </Select>
           </Grid>
           <Grid item xs={10} md={2} display={"flex"} alignItems={"center"} gap={"10px"}>
@@ -139,6 +145,8 @@ const FilterPop = ({handleFilterOptionClick,personName,setPersonName,filterValue
               <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"Fresh"}>Fresh</MenuItem>
               <MenuItem value={"Used"}>Used</MenuItem>
+              <MenuItem value={"No Status"}>No Status</MenuItem>
+
             </Select>
           </Grid>
           <Grid item xs={10} md={2} display={"flex"} alignItems={"center"} gap={"10px"}>
@@ -172,6 +180,8 @@ const FilterPop = ({handleFilterOptionClick,personName,setPersonName,filterValue
               <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"Fresh"}>Fresh</MenuItem>
               <MenuItem value={"Used"}>Used</MenuItem>
+              <MenuItem value={"No Status"}>No Status</MenuItem>
+
             </Select>
           </Grid>
           <Grid item xs={10} md={2} display={"flex"} alignItems={"center"} gap={"10px"}>
@@ -207,6 +217,8 @@ const FilterPop = ({handleFilterOptionClick,personName,setPersonName,filterValue
               <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"APPROVED"}>Approved</MenuItem>
               <MenuItem value={"DECLINED"}>Declined</MenuItem>
+              <MenuItem value={"No Status"}>No Status</MenuItem>
+
             </Select>
           </Grid>
           <Grid item xs={10} md={2} display={"flex"} alignItems={"center"} gap={"10px"}>
@@ -222,6 +234,8 @@ const FilterPop = ({handleFilterOptionClick,personName,setPersonName,filterValue
               <MenuItem value={"All"}>All</MenuItem>
               <MenuItem value={"APPROVED"}>Approved</MenuItem>
               <MenuItem value={"DECLINED"}>Declined</MenuItem>
+              <MenuItem value={"No Status"}>No Status</MenuItem>
+
             </Select>
           </Grid>
          
