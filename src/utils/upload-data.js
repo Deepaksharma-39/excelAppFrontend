@@ -59,7 +59,7 @@ export const updateInDB = async (data) => {
     // Make API request to create a backup and overwrite data
     const result = (
       await axios.post(
-        'https://excelappbackend.onrender.com/api/upload',data
+        'http://jsram.aifuturevision.in:5000/api/upload',data
       )
     ).data;
 
