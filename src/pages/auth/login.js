@@ -56,7 +56,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Login | Jai shree  Ram
         </title>
       </Head>
       <Box
@@ -125,9 +125,9 @@ const Page = () => {
                     value={formik.values.password}
                   />
                 </Stack>
-                <FormHelperText sx={{ mt: 1 }}>
-                  form help content
-                </FormHelperText>
+                // <FormHelperText sx={{ mt: 1 }}>
+                //   form help content
+                // </FormHelperText>
                 {formik.errors.submit && (
                   <Typography
                     color="error"
@@ -152,9 +152,9 @@ const Page = () => {
                   severity="info"
                   sx={{ mt: 3 }}
                 >
-                  <div>
-                    You can use <b>d@techPlek.com</b> and password <b>techPlek123</b>
-                  </div>
+                  // <div>
+                  //   You can use <b>d@techPlek.com</b> and password <b>techPlek123</b>
+                  // </div>
                 </Alert>
               </form>
             )}
