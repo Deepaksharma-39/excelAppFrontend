@@ -62,11 +62,13 @@ export const updateInDB = async (data) => {
         'http://jsram.aifuturevision.in:5000/api/upload',data
       )
     ).data;
+    alert("Data Uploaded successfully");
 
     // Handle the response as needed, update local state, etc.
     return result;
   } catch (error) {
     // If the API request was not successful, handle the error
+    alert("Data upload Failed");
     console.error('Error:', error.message);
   }
 };

@@ -103,7 +103,7 @@ export const OverviewData = (props) => {
             size="small"
             variant="caption"
             onClick={()=>{
-              router.push({ pathname: '/customers'});
+              router.push({ pathname: '/reports'});
             }}
             >
             View all

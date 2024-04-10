@@ -137,13 +137,13 @@ const Page = () => {
                                 .then((message) => {
                                   setValue(result.reverse());
                                   setLoading(false);
-                                  alert("Data Uploaded successfully");
+                                 
                                 })
                                 .catch((error) => {
                                   console.error("Error:", error);
                                   setLoading(false);
 
-                                  alert("Data upload Failed");
+                                  
                                 });
                             }}
                           >
