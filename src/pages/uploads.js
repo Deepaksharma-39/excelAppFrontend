@@ -24,6 +24,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { compareDataArrays, updateInDB } from "src/utils/upload-data";
 import { read, utils } from "xlsx";
 import { useDataContext } from "src/contexts/data-context";
+import { height } from "@mui/system";
 
 const Page = () => {
   const [page, setPage] = useState(0);
@@ -33,7 +34,8 @@ const Page = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [uploadData, setUploadData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const { data} = useDataContext();
+  const { data } = useDataContext();
+
   const handlePageChange = useCallback((event, value) => {
     setPage(value);
   }, []);
@@ -48,7 +50,9 @@ const Page = () => {
     setPage(0);
     setRowsPerPage(5);
     setValue([]);
+
     if (e.target.files) {
+      setLoading(true); // Setting loading state when file reading process starts
       const file = e.target.files[0];
       setSelectedFile(file);
       const reader = new FileReader();
@@ -61,8 +65,12 @@ const Page = () => {
         setUploadData(result);
         setValue(result);
         setCount(result.length);
+        setLoading(false); // Setting loading state after file reading process completes
       };
       reader.readAsArrayBuffer(file);
+    } else {
+      alert("Failed to upload file");
+      setLoading(false); // Setting loading state in case of failure
     }
   };
 
@@ -71,7 +79,6 @@ const Page = () => {
     setValue([]);
     window.location.reload();
   };
-
 
   return (
     <>
@@ -85,77 +92,92 @@ const Page = () => {
           py: 1,
         }}
       >
-        <Container maxWidth="xl" >
-          <Stack spacing={1}>
-          <Stack direction="row" justifyContent="space-between" spacing={4}>
-              <Stack spacing={1}>
-                <Typography variant="h4">Upload Data</Typography>
-                <Stack alignItems="center" direction="row" spacing={1}>
-                  <Row>
-                    <Col md="16 text-left" style={{display:'flex',flexDirection:'row', alignItems:'flex-start', gap:'10px'}}>
-                      <FormGroup>
-                        <Input
-                          id="inputEmpGroupFile"
-                          name="file"
-                          type="file"
-                          onChange={readUploadFile}
-                          accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
-                        />
-                      </FormGroup>
-                      {selectedFile?.name && (
-                        <Button
-                          disabled={loading}
-                          color="success"
-                          onClick={() => {
-                            setLoading(true)
-                            const result = compareDataArrays(data, value);
-                            const res = updateInDB(result);
+        {loading ? (
+          <Box
+            sx={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}
+          >
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Container maxWidth="xl">
+            <Stack spacing={1}>
+              <Stack direction="row" justifyContent="space-between" spacing={4}>
+                <Stack spacing={1}>
+                  <Typography variant="h4">Upload Data</Typography>
+                  <Stack alignItems="center" direction="row" spacing={1}>
+                    <Row>
+                      <Col
+                        md="16 text-left"
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "flex-start",
+                          gap: "10px",
+                        }}
+                      >
+                        <FormGroup>
+                          <Input
+                            id="inputEmpGroupFile"
+                            name="file"
+                            type="file"
+                            onChange={readUploadFile}
+                            accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+                          />
+                        </FormGroup>
+                        {value.length !== 0 && (
+                          <Button
+                            disabled={loading}
+                            color="success"
+                            onClick={() => {
+                              setLoading(true);
+                              const result = compareDataArrays(data, value);
+                              const res = updateInDB(result);
 
-                            res
-                              .then((message) => {
-                                setValue(result.reverse());
-                                setLoading(false)
-                                alert("Data Uploaded successfully");
-                              })
-                              .catch((error) => {
-                                console.error("Error:", error);
-                                setLoading(false)
+                              res
+                                .then((message) => {
+                                  setValue(result.reverse());
+                                  setLoading(false);
+                                  alert("Data Uploaded successfully");
+                                })
+                                .catch((error) => {
+                                  console.error("Error:", error);
+                                  setLoading(false);
 
-                                alert("Data upload Failed");
-                              });
-                          }}
-                        >
-                          {"Save Data"}
-                        </Button>
-                      )}
-                    </Col>
-                    <Col md="6 text-left">
-                    {" "}
-                      {selectedFile?.name && (
-                        <Button disabled={loading} color="" onClick={removeFile}>
-                          {"Reset"}
-                        </Button>
-                      )}{" "}
-                    </Col>
-                  </Row>
+                                  alert("Data upload Failed");
+                                });
+                            }}
+                          >
+                            {"Save Data"}
+                          </Button>
+                        )}
+                      </Col>
+                      <Col md="6 text-left">
+                        {" "}
+                        {selectedFile?.name && (
+                          <Button disabled={loading} color="warning" onClick={removeFile}>
+                            {"Reset"}
+                          </Button>
+                        )}{" "}
+                      </Col>
+                    </Row>
+                  </Stack>
                 </Stack>
               </Stack>
-            </Stack>
 
-            { (
-              <CustomersTable
-                count={count}
-                items={value}
-                onPageChange={handlePageChange}
-                onRowsPerPageChange={handleRowsPerPageChange}
-                page={page}
-                rowsPerPage={rowsPerPage}
-              />
-            )}
-          </Stack>
-        </Container>
+              {
+                <CustomersTable
+                  count={count}
+                  items={value}
+                  onPageChange={handlePageChange}
+                  onRowsPerPageChange={handleRowsPerPageChange}
+                  page={page}
+                  rowsPerPage={rowsPerPage}
+                />
+              }
+            </Stack>
+          </Container>
+        )}
       </Box>
-      
     </>
   );
 };

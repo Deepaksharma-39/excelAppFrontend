@@ -50,7 +50,7 @@ const Page = () => {
     if (data) {
       setValue(data);
       setCount(data.length);
-      const uniqueCities = [...new Set(data?.map(item => item.CITY.toLowerCase()))];
+      const uniqueCities = [...new Set(data?.map(item => item?.CITY?.toLowerCase()))];
       setUniqueCity(uniqueCities);
       const filteredCustomers = data.filter((customer) =>
         Object.values(customer).some((value) => {
